@@ -32,6 +32,9 @@ class TransactionService {
     }
 
     public function recordTransaction( int $userId, string $type, int | float $amount, ): void {
+        // Bangladesh Timezone
+        date_default_timezone_set( 'Asia/Dhaka' );
+
         $transactions = $this->storage->getTransactions();
 
         // Generate a new unique ID for the transaction

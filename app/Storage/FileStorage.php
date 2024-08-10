@@ -27,7 +27,11 @@ class FileStorage implements UserInterface, TransactionInterface {
 
     public function saveUser( array $newUser ): void {
         $users = $this->getUsers();
-        $users[] = $newUser[0];
+
+        foreach ( $newUser as $user ) {
+            $users[] = $user;
+        }
+
         FileHelper::writeFile( FilePaths::USERS, $users );
     }
 
@@ -51,7 +55,11 @@ class FileStorage implements UserInterface, TransactionInterface {
 
     public function saveTransaction( array $newTransaction ): void {
         $transactions = $this->getTransactions();
-        $transactions[] = $newTransaction[0];
+
+        foreach ( $newTransaction as $transaction ) {
+            $transactions[] = $transaction;
+        }
+
         FileHelper::writeFile( FilePaths::TRANSACTIONS, $transactions );
     }
 
