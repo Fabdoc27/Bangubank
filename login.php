@@ -2,20 +2,20 @@
 
     session_start();
 
-    if ( isset( $_SESSION['user'] ) ) {
-        if ( $_SESSION['user']['role'] === 'admin' ) {
-            header( 'Location: admin/customers.php' );
+    if (isset($_SESSION['user'])) {
+        if ($_SESSION['user']['role'] === 'admin') {
+            header('Location: admin/customers.php');
             exit;
-        } elseif ( $_SESSION['user']['role'] === 'user' ) {
-            header( 'Location: customer/dashboard.php' );
+        } elseif ($_SESSION['user']['role'] === 'user') {
+            header('Location: customer/dashboard.php');
             exit;
         }
     }
 
     require_once __DIR__ . '/vendor/autoload.php';
 
-    use App\Controllers\AuthController;
     use App\Helpers\FlashMessage;
+use App\Controllers\AuthController;
 
     $authUser = new AuthController();
 
@@ -23,7 +23,7 @@
     $errors = $authUser->getErrors();
     $oldInput = $authUser->getOldInput();
 
-    $flashMsg = FlashMessage::getMessage( 'success' );
+    $flashMsg = FlashMessage::getMessage('success');
 
 ?>
 <!DOCTYPE html>
@@ -60,14 +60,14 @@
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
-            <?php if ( $flashMsg ): ?>
+            <?php if ($flashMsg): ?>
             <div class="mb-2 text-center bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4"
                 role="alert">
                 <span class="font-bold"><?=$flashMsg;?></span>
             </div>
             <?php endif;?>
 
-            <?php if ( isset( $errors['auth'] ) ): ?>
+            <?php if (isset($errors['auth'])): ?>
             <div class="mb-2 text-center bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4"
                 role="alert">
                 <span class="font-bold"><?=$errors['auth'];?></span>
@@ -75,16 +75,16 @@
             <?php endif;?>
 
             <div class="px-6 py-12 bg-white shadow sm:rounded-lg sm:px-12">
-                <form class="space-y-6" action="<?=htmlspecialchars( $_SERVER['PHP_SELF'] )?>" method="POST">
+                <form class="space-y-6" action="<?=htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST">
                     <div>
                         <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email
                             Address</label>
                         <div class="mt-2">
                             <input id="email" name="email" type="email" autocomplete="email"
-                                value="<?php echo htmlspecialchars( $oldInput['email'] ?? '' ); ?>"
+                                value="<?php echo htmlspecialchars($oldInput['email'] ?? ''); ?>"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 p-2 sm:text-sm sm:leading-6" />
                         </div>
-                        <?php if ( isset( $errors['email'] ) ): ?>
+                        <?php if (isset($errors['email'])): ?>
                         <p class="text-xs text-red-600 mt-2"><?=$errors['email'];?></p>
                         <?php endif;?>
                     </div>
@@ -95,7 +95,7 @@
                             <input id="password" name="password" type="password" autocomplete="current-password"
                                 class="block w-full p-2 text-gray-900 border-0 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6" />
                         </div>
-                        <?php if ( isset( $errors['password'] ) ): ?>
+                        <?php if (isset($errors['password'])): ?>
                         <p class="text-xs text-red-600 mt-2"><?=$errors['password'];?></p>
                         <?php endif;?>
                     </div>

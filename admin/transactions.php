@@ -2,8 +2,8 @@
 
     session_start();
 
-    if ( $_SESSION['user']['role'] !== "admin" ) {
-        header( "Location: ../login.php" );
+    if ($_SESSION['user']['role'] !== "admin") {
+        header("Location: ../login.php");
         exit;
     }
 
@@ -171,7 +171,7 @@
                         <div class="mt-8 flow-root">
                             <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                                    <?php if ( empty( $transactions ) ): ?>
+                                    <?php if (empty($transactions)): ?>
                                     <p class="mb-8 text-center text-gray-500">No transactions done yet</p>
                                     <?php else: ?>
                                     <table class="min-w-full divide-y divide-gray-300">
@@ -196,24 +196,24 @@
                                             </tr>
                                         </thead>
                                         <tbody class="divide-y divide-gray-200 bg-white">
-                                            <?php foreach ( $transactions as $transaction ): ?>
+                                            <?php foreach ($transactions as $transaction): ?>
                                             <tr>
                                                 <td
                                                     class="whitespace-nowrap text-center py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
-                                                    <?=ucwords( $data->getUserName( $transaction['user_id'] ) )?>
+                                                    <?=ucwords($data->getUserName($transaction['user_id']))?>
                                                 </td>
                                                 <td
                                                     class="whitespace-nowrap text-center py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
-                                                    <?=ucfirst( $transaction['type'] )?>
+                                                    <?=ucfirst($transaction['type'])?>
                                                 </td>
                                                 <td
                                                     class="whitespace-nowrap text-center px-2 py-4 text-sm font-medium text-gray-600">
-                                                    <?=( $transaction['type'] === 'deposit' || $transaction['type'] === 'receive' ) ? '+' : '-';?>
-                                                    $<?=number_format( $transaction['amount'], 2 );?>
+                                                    <?=($transaction['type'] === 'deposit' || $transaction['type'] === 'receive') ? '+' : '-';?>
+                                                    $<?=number_format($transaction['amount'], 2);?>
                                                 </td>
                                                 <td
                                                     class="whitespace-nowrap text-center px-2 py-4 text-sm text-gray-600">
-                                                    <?=date( 'd M Y, h:i A', strtotime( $transaction['created_at'] ) )?>
+                                                    <?=date('d M Y, h:i A', strtotime($transaction['created_at']))?>
                                                 </td>
                                             </tr>
                                             <?php endforeach;?>

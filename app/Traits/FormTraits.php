@@ -6,16 +6,16 @@ trait FormTraits {
     private array $errors = [];
     private array $oldInput = [];
 
-    public function getPostData( array $fields ): array {
+    public function getPostData(array $fields): array {
         $data = [];
-        foreach ( $fields as $field ) {
+        foreach ($fields as $field) {
             $data[$field] = $_POST[$field] ?? '';
         }
 
         return $data;
     }
 
-    public function setErrors( array $errors ): void {
+    public function setErrors(array $errors): void {
         $this->errors = $errors;
     }
 
@@ -23,7 +23,7 @@ trait FormTraits {
         return $this->errors;
     }
 
-    public function setOldInput( array $oldInput ): void {
+    public function setOldInput(array $oldInput): void {
         $this->oldInput = $oldInput;
     }
 

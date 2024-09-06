@@ -2,8 +2,8 @@
 
     session_start();
 
-    if ( $_SESSION['user']['role'] !== "admin" ) {
-        header( "Location: ../login.php" );
+    if ($_SESSION['user']['role'] !== "admin") {
+        header("Location: ../login.php");
         exit;
     }
 
@@ -167,13 +167,13 @@
 
         <main class="-mt-32">
             <div class="px-4 pb-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <?php if ( isset( $errors['auth'] ) ): ?>
+                <?php if (isset($errors['auth'])): ?>
                 <div class="mb-2 bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4" role="alert">
                     <span class="font-bold"><?=$errors['auth'];?></span>
                 </div>
                 <?php endif;?>
                 <div class="bg-white rounded-lg">
-                    <form action="<?=htmlspecialchars( $_SERVER['PHP_SELF'] )?>" method="POST"
+                    <form action="<?=htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST"
                         class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
                         <div class="px-4 py-6 sm:p-8">
                             <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -182,10 +182,10 @@
                                         class="block text-sm font-medium leading-6 text-gray-900">Name</label>
                                     <div class="mt-2">
                                         <input type="text" name="name" id="name" autocomplete="given-name"
-                                            value="<?php echo htmlspecialchars( $oldInput['name'] ?? '' ); ?>"
+                                            value="<?php echo htmlspecialchars($oldInput['name'] ?? ''); ?>"
                                             class="block w-full p-2 text-gray-900 border-0 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6" />
                                     </div>
-                                    <?php if ( isset( $errors['name'] ) ): ?>
+                                    <?php if (isset($errors['name'])): ?>
                                     <p class="text-xs text-red-600 mt-2"><?=$errors['name'];?></p>
                                     <?php endif;?>
                                 </div>
@@ -195,10 +195,10 @@
                                         Address</label>
                                     <div class="mt-2">
                                         <input type="email" name="email" id="email" autocomplete="email"
-                                            value="<?php echo htmlspecialchars( $oldInput['email'] ?? '' ); ?>"
+                                            value="<?php echo htmlspecialchars($oldInput['email'] ?? ''); ?>"
                                             class="block w-full p-2 text-gray-900 border-0 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6" />
                                     </div>
-                                    <?php if ( isset( $errors['email'] ) ): ?>
+                                    <?php if (isset($errors['email'])): ?>
                                     <p class="text-xs text-red-600 mt-2"><?=$errors['email'];?></p>
                                     <?php endif;?>
                                 </div>
@@ -210,7 +210,7 @@
                                         <input type="password" name="password" id="password" autocomplete="password"
                                             class="block w-full p-2 text-gray-900 border-0 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6" />
                                     </div>
-                                    <?php if ( isset( $errors['password'] ) ): ?>
+                                    <?php if (isset($errors['password'])): ?>
                                     <p class="text-xs text-red-600 mt-2"><?=$errors['password'];?></p>
                                     <?php endif;?>
                                 </div>

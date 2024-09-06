@@ -2,30 +2,30 @@
 
     session_start();
 
-    if ( $_SESSION['user']['role'] !== "admin" ) {
-        header( "Location: ../login.php" );
+    if ($_SESSION['user']['role'] !== "admin") {
+        header("Location: ../login.php");
         exit;
     }
 
     require_once __DIR__ . '/../vendor/autoload.php';
 
-    use App\Controllers\AdminController;
     use App\Helpers\FlashMessage;
+use App\Controllers\AdminController;
 
     $data = new AdminController;
 
     $search = false;
     $searchResults = [];
 
-    if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
-        $email = filter_input( INPUT_POST, 'email', FILTER_SANITIZE_EMAIL );
-        $searchResults = $data->searchUserByEmail( $email );
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $searchResults = $data->searchUserByEmail($email);
         $search = true;
     }
 
     $customers = $data->usersList();
 
-    $flashMsg = FlashMessage::getMessage( 'success' );
+    $flashMsg = FlashMessage::getMessage('success');
 
 ?>
 <!DOCTYPE html>
@@ -183,7 +183,7 @@
                         <div class="sm:flex sm:items-center">
                             <div class="sm:flex-auto w-48">
                                 <form class="max-w-md" method="POST"
-                                    action="<?=htmlspecialchars( $_SERVER['PHP_SELF'] )?>">
+                                    action="<?=htmlspecialchars($_SERVER['PHP_SELF'])?>">
                                     <label for="default-search"
                                         class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                                     <div class="relative">
@@ -212,7 +212,7 @@
                             </div>
                         </div>
 
-                        <?php if ( isset( $flashMsg ) ): ?>
+                        <?php if (isset($flashMsg)): ?>
                         <div class="p-4 mt-4 text-sm text-center text-teal-800 bg-teal-100 border border-teal-200 rounded-lg"
                             role="alert">
                             <span class="font-bold"><?=$flashMsg;?></span>
@@ -221,13 +221,13 @@
 
                         <!-- Users List -->
                         <?php $usersData = $search ? $searchResults : $customers;
-                        if ( $search && empty( $searchResults ) ): ?>
+                        if ($search && empty($searchResults)): ?>
                         <p class="mt-8 text-center text-gray-500">No user found with the provided email</p>
 
-                        <?php elseif ( !empty( $usersData ) ): ?>
+                        <?php elseif (!empty($usersData)): ?>
                         <div class="flow-root mt-8">
                             <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                <?php foreach ( $usersData as $customer ): ?>
+                                <?php foreach ($usersData as $customer): ?>
                                 <ul role="list" class="divide-y divide-gray-100">
                                     <li
                                         class="relative flex justify-between px-4 py-5 gap-x-6 hover:bg-gray-50 sm:px-6 lg:px-8">
@@ -235,7 +235,7 @@
                                             <span
                                                 class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-sky-500">
                                                 <span class="text-xl font-medium leading-none text-white">
-                                                    <?=strtoupper( substr( $customer['name'], 0, 2 ) )?>
+                                                    <?=strtoupper(substr($customer['name'], 0, 2))?>
                                                 </span>
                                             </span>
 
@@ -243,12 +243,12 @@
                                                 <p class="text-sm font-semibold leading-6 text-gray-900">
                                                     <a href="customer_transactions.php?id=<?=$customer['id']?>">
                                                         <span class="absolute inset-x-0 bottom-0 -top-px"></span>
-                                                        <?=ucwords( htmlspecialchars( $customer['name'] ) )?>
+                                                        <?=ucwords(htmlspecialchars($customer['name']))?>
                                                     </a>
                                                 </p>
                                                 <p class="flex mt-1 text-xs leading-5 text-gray-500">
                                                     <a href="customer_transactions.php?id=<?=$customer['id']?>"
-                                                        class="relative truncate hover:underline"><?=htmlspecialchars( $customer['email'] )?>
+                                                        class="relative truncate hover:underline"><?=htmlspecialchars($customer['email'])?>
                                                     </a>
                                                 </p>
                                             </div>

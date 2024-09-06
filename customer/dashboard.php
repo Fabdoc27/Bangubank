@@ -1,25 +1,25 @@
 <?php
     session_start();
 
-    if ( $_SESSION['user']['role'] !== "customer" ) {
-        header( "Location: ../login.php" );
+    if ($_SESSION['user']['role'] !== "customer") {
+        header("Location: ../login.php");
         exit;
     }
 
     require_once __DIR__ . '/../vendor/autoload.php';
 
-    use App\Controllers\TransactionController;
     use App\Helpers\FlashMessage;
+use App\Controllers\TransactionController;
 
     $transactions = new TransactionController();
 
     $userId = $_SESSION['user']['id'];
-    $userDetails = $transactions->userDetails( $userId );
-    $allTransactions = $transactions->transactionsByUser( $userId );
+    $userDetails = $transactions->userDetails($userId);
+    $allTransactions = $transactions->transactionsByUser($userId);
 
     $balance = $userDetails['balance'];
 
-    $flashMsg = FlashMessage::getMessage( 'success' );
+    $flashMsg = FlashMessage::getMessage('success');
 
 ?>
 <!DOCTYPE html>
@@ -86,7 +86,7 @@
                                         <span
                                             class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100">
                                             <span class="font-medium leading-none text-emerald-700">
-                                                <?=strtoupper( substr( $_SESSION['user']['name'], 0, 2 ) )?>
+                                                <?=strtoupper(substr($_SESSION['user']['name'], 0, 2))?>
                                             </span>
                                         </span>
                                     </button>
@@ -149,7 +149,7 @@
                                 <span
                                     class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100">
                                     <span class="font-medium leading-none text-emerald-700">
-                                        <?=strtoupper( substr( $_SESSION['user']['name'], 0, 2 ) )?>
+                                        <?=strtoupper(substr($_SESSION['user']['name'], 0, 2))?>
                                     </span>
                                 </span>
                             </div>
@@ -192,7 +192,7 @@
         <main class="-mt-32">
             <div class="px-4 pb-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="p-4 bg-white rounded-lg">
-                    <?php if ( isset( $flashMsg ) ): ?>
+                    <?php if (isset($flashMsg)): ?>
                     <div class="p-4 mb-2 text-sm text-center text-teal-800 bg-teal-100 border border-teal-200 rounded-lg"
                         role="alert">
                         <span class="font-bold"><?=$flashMsg;?></span>
@@ -206,13 +206,13 @@
                                 Current Balance
                             </dt>
                             <dd class="flex-none w-full text-3xl font-medium leading-10 tracking-tight text-gray-900">
-                                $<?=number_format( $balance, 2 );?>
+                                $<?=number_format($balance, 2);?>
                             </dd>
                         </div>
                     </dl>
 
                     <!-- List of All The Transactions -->
-                    <?php if ( empty( $allTransactions ) ): ?>
+                    <?php if (empty($allTransactions)): ?>
                     <p class="mb-8 text-center text-gray-500">No transactions done yet</p>
                     <?php else: ?>
                     <div class="px-4 sm:px-6 lg:px-8">
@@ -242,41 +242,41 @@
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
                                             <?php
-                                            foreach ( $allTransactions as $transaction ): ?>
+                                            foreach ($allTransactions as $transaction): ?>
                                             <tr>
                                                 <td
                                                     class="py-4 pl-4 pr-3 text-sm text-center text-gray-800 whitespace-nowrap sm:pl-0">
-                                                    <?=ucfirst( $transaction['type'] );?>
+                                                    <?=ucfirst($transaction['type']);?>
                                                 </td>
                                                 <td
                                                     class="py-4 pl-4 pr-3 text-sm text-center text-gray-500 whitespace-nowrap sm:pl-0">
                                                     <?php
-                                                        if ( $transaction['type'] === 'transfer' ) {
+                                                        if ($transaction['type'] === 'transfer') {
                                                             // Display the email of the receiver in the transfer
                                                             $receiverId = $transaction['user_id'];
-                                                            $receiver = $transactions->userDetails( $receiverId );
+                                                            $receiver = $transactions->userDetails($receiverId);
                                                             echo $receiver['email'];
-                                                        } elseif ( $transaction['type'] === 'receive' ) {
+                                                        } elseif ($transaction['type'] === 'receive') {
                                                             // Display the email of the sender in the receive
                                                             $senderId = $transaction['user_id'];
-                                                            $sender = $transactions->userDetails( $senderId );
+                                                            $sender = $transactions->userDetails($senderId);
                                                             echo $sender['email'];
                                                         } else {
                                                             // Display own email for deposit and withdraw
-                                                            $user = $transactions->userDetails( $transaction['user_id'] );
+                                                            $user = $transactions->userDetails($transaction['user_id']);
                                                             echo $user['email'];
                                                         }
                                                     ?>
                                                 </td>
                                                 <td
                                                     class="px-2 py-4 text-sm font-medium text-center whitespace-nowrap
-                                                    <?=( $transaction['type'] === 'deposit' || $transaction['type'] === 'receive' ) ? 'text-emerald-600' : 'text-red-600';?>">
-                                                    <?=( $transaction['type'] === 'deposit' || $transaction['type'] === 'receive' ) ? '+' : '-';?>
-                                                    $<?=number_format( $transaction['amount'], 2 );?>
+                                                    <?=($transaction['type'] === 'deposit' || $transaction['type'] === 'receive') ? 'text-emerald-600' : 'text-red-600';?>">
+                                                    <?=($transaction['type'] === 'deposit' || $transaction['type'] === 'receive') ? '+' : '-';?>
+                                                    $<?=number_format($transaction['amount'], 2);?>
                                                 </td>
                                                 <td
                                                     class="px-2 py-4 text-sm text-center text-gray-500 whitespace-nowrap">
-                                                    <?=date( 'd M Y, h:i A', strtotime( $transaction['created_at'] ) );?>
+                                                    <?=date('d M Y, h:i A', strtotime($transaction['created_at']));?>
                                                 </td>
                                                 <?php endforeach;?>
                                         </tbody>

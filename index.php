@@ -2,17 +2,17 @@
 
     require_once __DIR__ . '/vendor/autoload.php';
 
-    use App\Controllers\AuthController;
     use App\Helpers\FlashMessage;
+use App\Controllers\AuthController;
 
     $authController = new AuthController();
 
-    if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['seed_admin'] ) ) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['seed_admin'])) {
         $authController->seedAdmin();
     }
 
-    $successMsg = FlashMessage::getMessage( 'success' );
-    $errorMsg = FlashMessage::getMessage( 'error' );
+    $successMsg = FlashMessage::getMessage('success');
+    $errorMsg = FlashMessage::getMessage('error');
 
 ?>
 <!DOCTYPE html>
@@ -50,12 +50,12 @@
             and 'Customer' users.
         </p>
 
-        <?php if ( isset( $successMsg ) ): ?>
+        <?php if (isset($successMsg)): ?>
         <div class="max-w-screen-xl mx-64 mb-8 text-center bg-teal-200 border border-teal-200 text-teal-800 text-sm rounded-lg p-4"
             role="alert">
             <span class="font-bold"><?=$successMsg;?></span>
         </div>
-        <?php elseif ( isset( $errorMsg ) ): ?>
+        <?php elseif (isset($errorMsg)): ?>
         <div class="max-w-screen-xl mx-64 mb-8 text-center bg-red-200 border border-red-200 text-red-800 text-sm rounded-lg p-4"
             role="alert">
             <span class="font-bold"><?=$errorMsg;?></span>
@@ -80,7 +80,7 @@
                 class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
                 Customer View
             </a>
-            <form action="<?=htmlspecialchars( $_SERVER['PHP_SELF'] );?>" method="post">
+            <form action="<?=htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
                 <input type="hidden" name="seed_admin">
                 <button type="submit"
                     class="text-white bg-stone-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">

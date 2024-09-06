@@ -6,9 +6,9 @@ use App\Helpers\AppConfig;
 
 class StorageFactory {
     public static function create() {
-        $storageType = AppConfig::get( 'storage' );
+        $storageType = AppConfig::get('storage');
 
-        if ( $storageType === 'database' ) {
+        if ($storageType === 'database') {
             return new DatabaseStorage();
         }
 

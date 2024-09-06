@@ -48,23 +48,23 @@
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
-            <?php if ( isset( $errors['auth'] ) ): ?>
+            <?php if (isset($errors['auth'])): ?>
             <div class="mb-2 bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4" role="alert">
                 <span class="font-bold"><?=$errors['auth'];?></span>
             </div>
             <?php endif;?>
 
             <div class="px-6 py-12 bg-white shadow sm:rounded-lg sm:px-12">
-                <form class="space-y-6" action="<?=htmlspecialchars( $_SERVER['PHP_SELF'] )?>" method="POST">
+                <form class="space-y-6" action="<?=htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST">
                     <div>
                         <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
                         <div class="mt-2">
                             <input id="name" name="name" type="text"
-                                value="<?php echo htmlspecialchars( $oldInput['name'] ?? '' ); ?>" class=" block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1
+                                value="<?php echo htmlspecialchars($oldInput['name'] ?? ''); ?>" class=" block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1
                                 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset
                                 focus:ring-emerald-600 sm:text-sm sm:leading-6 p-2" />
                         </div>
-                        <?php if ( isset( $errors['name'] ) ): ?>
+                        <?php if (isset($errors['name'])): ?>
                         <p class="text-xs text-red-600 mt-2"><?=$errors['name'];?></p>
                         <?php endif;?>
                     </div>
@@ -74,11 +74,11 @@
                             Address</label>
                         <div class="mt-2">
                             <input id="email" name="email" type="email" autocomplete="email"
-                                value="<?php echo htmlspecialchars( $oldInput['email'] ?? '' ); ?>" class=" block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1
+                                value="<?php echo htmlspecialchars($oldInput['email'] ?? ''); ?>" class=" block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1
                                 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset
                                 focus:ring-emerald-600 sm:text-sm sm:leading-6 p-2" />
                         </div>
-                        <?php if ( isset( $errors['email'] ) ): ?>
+                        <?php if (isset($errors['email'])): ?>
                         <p class="text-xs text-red-600 mt-2"><?=$errors['email'];?></p>
                         <?php endif;?>
                     </div>
@@ -89,7 +89,7 @@
                             <input id="password" name="password" type="password"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 p-2" />
                         </div>
-                        <?php if ( isset( $errors['password'] ) ): ?>
+                        <?php if (isset($errors['password'])): ?>
                         <p class="text-xs text-red-600 mt-2"><?=$errors['password'];?></p>
                         <?php endif;?>
                     </div>

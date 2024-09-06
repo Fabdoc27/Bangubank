@@ -2,8 +2,8 @@
 
     session_start();
 
-    if ( $_SESSION['user']['role'] !== "admin" ) {
-        header( "Location: ../login.php" );
+    if ($_SESSION['user']['role'] !== "admin") {
+        header("Location: ../login.php");
         exit;
     }
 
@@ -14,9 +14,9 @@
     $data = new AdminController();
 
     $userId = (int) $_GET['id'];
-    $userDetails = $data->userInfo( $userId );
+    $userDetails = $data->userInfo($userId);
     $userName = $userDetails['name'];
-    $allTransactions = $data->transactionsById( $userId );
+    $allTransactions = $data->transactionsById($userId);
 
 ?>
 <!DOCTYPE html>
@@ -161,7 +161,7 @@
             <header class="py-10">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <h1 class="text-3xl font-bold tracking-tight text-white">
-                        Transactions of <?=ucwords( $userName );?>
+                        Transactions of <?=ucwords($userName);?>
                     </h1>
                 </div>
             </header>
@@ -171,7 +171,7 @@
             <div class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
                 <div class="bg-white rounded-lg py-8">
                     <!-- List of All The Transactions -->
-                    <?php if ( empty( $allTransactions ) ): ?>
+                    <?php if (empty($allTransactions)): ?>
                     <p class="text-center text-gray-500">No transactions done yet</p>
                     <?php else: ?>
                     <div class="px-4 sm:px-6 lg:px-8">
@@ -196,35 +196,35 @@
                                             </tr>
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
-                                            <?php foreach ( $allTransactions as $transaction ): ?>
+                                            <?php foreach ($allTransactions as $transaction): ?>
                                             <tr>
                                                 <td
                                                     class="py-4 pl-4 pr-3 text-sm text-center text-gray-800 whitespace-nowrap sm:pl-0">
-                                                    <?=ucfirst( $transaction['type'] );?>
+                                                    <?=ucfirst($transaction['type']);?>
                                                 </td>
                                                 <td
                                                     class="py-4 pl-4 pr-3 text-sm text-center text-gray-500 whitespace-nowrap sm:pl-0">
                                                     <?php
-                                                        if ( $transaction['type'] === 'transfer' ) {
-                                                            $receiver = $data->userInfo( $transaction['user_id'] );
+                                                        if ($transaction['type'] === 'transfer') {
+                                                            $receiver = $data->userInfo($transaction['user_id']);
                                                             echo $receiver['email'];
-                                                        } elseif ( $transaction['type'] === 'receive' ) {
-                                                            $sender = $data->userInfo( $transaction['user_id'] );
+                                                        } elseif ($transaction['type'] === 'receive') {
+                                                            $sender = $data->userInfo($transaction['user_id']);
                                                             echo $sender['email'];
                                                         } else {
-                                                            $user = $data->userInfo( $transaction['user_id'] );
+                                                            $user = $data->userInfo($transaction['user_id']);
                                                             echo $user['email'];
                                                         }
                                                     ?>
                                                 </td>
                                                 <td
-                                                    class="px-2 py-4 text-sm font-medium text-center whitespace-nowrap <?=( $transaction['type'] === 'deposit' || $transaction['type'] === 'receive' ) ? 'text-emerald-600' : 'text-red-600';?>">
-                                                    <?=( $transaction['type'] === 'deposit' || $transaction['type'] === 'receive' ) ? '+' : '-';?>
-                                                    $<?=number_format( $transaction['amount'], 2 );?>
+                                                    class="px-2 py-4 text-sm font-medium text-center whitespace-nowrap <?=($transaction['type'] === 'deposit' || $transaction['type'] === 'receive') ? 'text-emerald-600' : 'text-red-600';?>">
+                                                    <?=($transaction['type'] === 'deposit' || $transaction['type'] === 'receive') ? '+' : '-';?>
+                                                    $<?=number_format($transaction['amount'], 2);?>
                                                 </td>
                                                 <td
                                                     class="px-2 py-4 text-sm text-center text-gray-500 whitespace-nowrap">
-                                                    <?=date( 'd M Y, h:i A', strtotime( $transaction['created_at'] ) );?>
+                                                    <?=date('d M Y, h:i A', strtotime($transaction['created_at']));?>
                                                 </td>
                                             </tr>
                                             <?php endforeach;?>

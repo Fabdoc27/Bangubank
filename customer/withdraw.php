@@ -2,30 +2,30 @@
 
     session_start();
 
-    if ( $_SESSION['user']['role'] !== "customer" ) {
-        header( "Location: ../login.php" );
+    if ($_SESSION['user']['role'] !== "customer") {
+        header("Location: ../login.php");
         exit;
     }
 
     require_once __DIR__ . '/../vendor/autoload.php';
 
-    use App\Controllers\TransactionController;
     use App\Helpers\FlashMessage;
+use App\Controllers\TransactionController;
 
     $withdraw = new TransactionController();
 
     $userId = $_SESSION['user']['id'];
     $amount = $_POST['amount'] ?? '';
 
-    $withdraw->withdraw( $userId, $amount );
-    $userDetails = $withdraw->userDetails( $userId );
+    $withdraw->withdraw($userId, $amount);
+    $userDetails = $withdraw->userDetails($userId);
 
     $balance = $userDetails['balance'];
 
     $errors = $withdraw->getErrors();
     $oldInput = $withdraw->getOldInput();
 
-    $flashMsg = FlashMessage::getMessage( 'success' );
+    $flashMsg = FlashMessage::getMessage('success');
 
 ?>
 <!DOCTYPE html>
@@ -92,7 +92,7 @@
                                         <span
                                             class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100">
                                             <span class="font-medium leading-none text-emerald-700">
-                                                <?=strtoupper( substr( $_SESSION['user']['name'], 0, 2 ) )?>
+                                                <?=strtoupper(substr($_SESSION['user']['name'], 0, 2))?>
                                             </span>
                                         </span>
                                     </button>
@@ -155,7 +155,7 @@
                                 <span
                                     class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100">
                                     <span class="font-medium leading-none text-emerald-700">
-                                        <?=strtoupper( substr( $_SESSION['user']['name'], 0, 2 ) )?>
+                                        <?=strtoupper(substr($_SESSION['user']['name'], 0, 2))?>
                                     </span>
                                 </span>
                             </div>
@@ -206,7 +206,7 @@
                                 Current Balance
                             </dt>
                             <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">
-                                $<?=number_format( $balance, 2 );?>
+                                $<?=number_format($balance, 2);?>
                             </dd>
                         </div>
                     </dl>
@@ -219,7 +219,7 @@
                                 Withdraw Money From Your Account
                             </h3>
                             <div class="mt-4 text-sm text-gray-500">
-                                <form action="<?=htmlspecialchars( $_SERVER['PHP_SELF'] )?>" method="POST" novalidate>
+                                <form action="<?=htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST" novalidate>
                                     <!-- Input Field -->
                                     <div class="relative mt-2 rounded-md">
                                         <div
@@ -227,10 +227,10 @@
                                             <span class="text-gray-400 sm:text-4xl">$</span>
                                         </div>
                                         <input type="number" name="amount" id="amount"
-                                            value="<?php echo htmlspecialchars( $oldInput['amount'] ?? '' ); ?>"
+                                            value="<?php echo htmlspecialchars($oldInput['amount'] ?? ''); ?>"
                                             class="block w-full ring-0 outline-none text-xl pl-4 py-2 sm:pl-8 text-gray-800 border-b border-b-emerald-500 placeholder:text-gray-400 sm:text-4xl"
                                             placeholder="0.00" />
-                                        <?php if ( isset( $errors['amount'] ) ): ?>
+                                        <?php if (isset($errors['amount'])): ?>
                                         <p class="text-xs text-red-600 mt-2"><?=$errors['amount'];?></p>
                                         <?php endif;?>
                                     </div>
