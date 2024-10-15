@@ -6,14 +6,28 @@ use App\Constants\FilePaths;
 
 class AppConfig
 {
-    private static array $config;
+    private static $instance = null;
+    private array $config;
 
-    public static function get(string $key): mixed
+    // Private constructor to prevent instantiation
+    private function __construct()
     {
-        if ( ! isset(self::$config)) {
-            self::$config = require FilePaths::CONFIG;
+        $this->config = require FilePaths::CONFIG;
+    }
+
+    // Static method to get the single instance
+    public static function getInstance(): AppConfig
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
-        return self::$config[$key];
+        return self::$instance;
+    }
+
+    // Public method to get config value
+    public function get(string $key): mixed
+    {
+        return $this->config[$key] ?? null;
     }
 }

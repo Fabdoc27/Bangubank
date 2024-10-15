@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Helpers\AppConfig;
 use App\Storage\StorageFactory;
 
 class AdminController
@@ -10,7 +11,9 @@ class AdminController
 
     public function __construct()
     {
-        $this->storage = StorageFactory::create();
+        $config = AppConfig::getInstance();
+        $factory = new StorageFactory($config);
+        $this->storage = $factory->create();
     }
 
     public function usersList(): array

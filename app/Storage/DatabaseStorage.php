@@ -4,19 +4,22 @@ namespace App\Storage;
 
 use App\Constants\FilePaths;
 use App\Helpers\AppConfig;
-use App\Storage\TransactionInterface;
-use App\Storage\UserInterface;
+use App\Interfaces\TransactionInterface;
+use App\Interfaces\UserInterface;
 use PDO;
 use PDOException;
 
 class DatabaseStorage implements UserInterface, TransactionInterface
 {
     private PDO $pdo;
+    private AppConfig $config;
 
-    public function __construct()
+    public function __construct(AppConfig $config)
     {
-        $config = AppConfig::get('database');
-        $this->pdo = new PDO($config['dsn'], $config['username'], $config['password']);
+        $this->config = $config;
+        $dbConfig = $this->config->get('database');
+
+        $this->pdo = new PDO($dbConfig['dsn'], $dbConfig['username'], $dbConfig['password']);
         $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

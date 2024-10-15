@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\AppConfig;
 use App\Helpers\FileHelper;
 use App\Storage\FileStorage;
 use App\Storage\StorageFactory;
@@ -13,7 +14,9 @@ class AuthService
 
     public function __construct()
     {
-        $this->storage = StorageFactory::create();
+        $config = AppConfig::getInstance();
+        $factory = new StorageFactory($config);
+        $this->storage = $factory->create();
     }
 
     public function isExistingUser(string $email): bool

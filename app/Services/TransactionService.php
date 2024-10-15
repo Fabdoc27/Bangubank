@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Constants\TransactionTypes;
+use App\Helpers\AppConfig;
 use App\Helpers\FileHelper;
 use App\Storage\FileStorage;
 use App\Storage\StorageFactory;
@@ -14,7 +15,9 @@ class TransactionService
 
     public function __construct()
     {
-        $this->storage = StorageFactory::create();
+        $config = AppConfig::getInstance();
+        $factory = new StorageFactory($config);
+        $this->storage = $factory->create();
     }
 
     public function allTransactions(): array

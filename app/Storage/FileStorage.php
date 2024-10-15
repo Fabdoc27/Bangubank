@@ -3,12 +3,20 @@
 namespace App\Storage;
 
 use App\Constants\FilePaths;
+use App\Helpers\AppConfig;
 use App\Helpers\FileHelper;
-use App\Storage\TransactionInterface;
-use App\Storage\UserInterface;
+use App\Interfaces\TransactionInterface;
+use App\Interfaces\UserInterface;
 
 class FileStorage implements UserInterface, TransactionInterface
 {
+    private AppConfig $config;
+
+    public function __construct(AppConfig $config)
+    {
+        $this->config = $config;
+    }
+
     public function getUsers(): array
     {
         return FileHelper::readFile(FilePaths::USERS);
