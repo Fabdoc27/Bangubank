@@ -2,36 +2,43 @@
 
 namespace App\Services;
 
-use Exception;
+use App\Constants\TransactionTypes;
 use App\Helpers\FileHelper;
 use App\Storage\FileStorage;
 use App\Storage\StorageFactory;
-use App\Constants\TransactionTypes;
+use Exception;
 
-class TransactionService {
+class TransactionService
+{
     private $storage;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->storage = StorageFactory::create();
     }
 
-    public function allTransactions(): array {
+    public function allTransactions(): array
+    {
         return $this->storage->getTransactions();
     }
 
-    public function getUserTransactions(int $userId): array {
+    public function getUserTransactions(int $userId): array
+    {
         return $this->storage->getTransactionsById($userId);
     }
 
-    public function getUserById(int $id): array | bool {
+    public function getUserById(int $id): array | bool
+    {
         return $this->storage->getUserById($id);
     }
 
-    public function getUserByEmail(string $email): array | bool {
+    public function getUserByEmail(string $email): array | bool
+    {
         return $this->storage->getUserByEmail($email);
     }
 
-    public function recordTransaction(int $userId, string $type, int | float $amount, ): void {
+    public function recordTransaction(int $userId, string $type, int | float $amount, ): void
+    {
         // Bangladesh Timezone
         date_default_timezone_set('Asia/Dhaka');
 
@@ -44,10 +51,10 @@ class TransactionService {
 
         // Create a new transaction array
         $newTransaction = [
-            'id'         => $id,
-            'user_id'    => $userId,
-            'type'       => $type,
-            'amount'     => $amount,
+            'id' => $id,
+            'user_id' => $userId,
+            'type' => $type,
+            'amount' => $amount,
             'created_at' => date('Y-m-d H:i:s'),
         ];
 
@@ -55,7 +62,8 @@ class TransactionService {
         $this->storage->saveTransaction([$newTransaction]);
     }
 
-    public function deposit(int $userId, int | float $amount): void {
+    public function deposit(int $userId, int | float $amount): void
+    {
         $user = $this->storage->getUserById($userId);
 
         // Update the user's balance
@@ -65,7 +73,8 @@ class TransactionService {
         $this->updateBalanceAndSaveRecord($userId, $user['balance'], TransactionTypes::DEPOSIT, $amount);
     }
 
-    public function withdraw(int $userId, int | float $amount): void {
+    public function withdraw(int $userId, int | float $amount): void
+    {
         $user = $this->storage->getUserById($userId);
 
         if ($user['balance'] < $amount) {
@@ -79,7 +88,8 @@ class TransactionService {
         $this->updateBalanceAndSaveRecord($userId, $user['balance'], TransactionTypes::WITHDRAW, $amount);
     }
 
-    public function transfer(int $senderId, string $receiverEmail, int | float $amount): void {
+    public function transfer(int $senderId, string $receiverEmail, int | float $amount): void
+    {
         $sender = $this->storage->getUserById($senderId);
         $receiver = $this->storage->getUserByEmail($receiverEmail);
 
@@ -96,7 +106,8 @@ class TransactionService {
         $this->updateBalanceAndSaveRecord($receiver['id'], $receiver['balance'], TransactionTypes::RECEIVE, $amount);
     }
 
-    private function updateBalanceAndSaveRecord(int $userId, int | float $balance, string $type, int | float $amount): void {
+    private function updateBalanceAndSaveRecord(int $userId, int | float $balance, string $type, int | float $amount): void
+    {
         $this->storage->updateUserBalance($userId, $balance);
         $this->recordTransaction($userId, $type, $amount);
     }

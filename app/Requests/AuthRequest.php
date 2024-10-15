@@ -2,8 +2,10 @@
 
 namespace App\Requests;
 
-class AuthRequest {
-    public function validate(array $data, string $action): array {
+class AuthRequest
+{
+    public function validate(array $data, string $action): array
+    {
         $errors = [];
 
         if ($action === "register") {
@@ -20,7 +22,8 @@ class AuthRequest {
         }
     }
 
-    private function validateName(string $name, array &$errors): ?string {
+    private function validateName(string $name, array &$errors): ?string
+    {
         $name = trim($name);
         $name = filter_var($name, FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -32,19 +35,21 @@ class AuthRequest {
         return $name;
     }
 
-    private function validateEmail(string $email, array &$errors): string {
+    private function validateEmail(string $email, array &$errors): string
+    {
         $email = trim($email);
 
         if (empty($email)) {
             $errors['email'] = 'Please provide an email address';
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        } elseif ( ! filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = 'Please provide a valid email address';
         }
 
         return $email;
     }
 
-    private function validatePassword(string $password, array &$errors): string {
+    private function validatePassword(string $password, array &$errors): string
+    {
         $password = trim($password);
         $password = filter_var($password, FILTER_SANITIZE_SPECIAL_CHARS);
 

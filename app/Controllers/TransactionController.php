@@ -2,33 +2,38 @@
 
 namespace App\Controllers;
 
-use Exception;
-use App\Traits\FormTraits;
 use App\Helpers\FlashMessage;
 use App\Requests\TransactionRequest;
 use App\Services\TransactionService;
+use App\Traits\FormTraits;
+use Exception;
 
-class TransactionController {
+class TransactionController
+{
     use FormTraits;
 
     private TransactionService $transactionService;
     private TransactionRequest $transactionRequest;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->transactionService = new TransactionService();
         $this->transactionRequest = new TransactionRequest();
     }
 
-    public function userDetails($userId): array {
+    public function userDetails($userId): array
+    {
         return $this->transactionService->getUserById($userId);
     }
 
-    public function transactionsByUser(int $userId): array {
+    public function transactionsByUser(int $userId): array
+    {
         // for latest records to show first
         return array_reverse($this->transactionService->getUserTransactions($userId));
     }
 
-    public function deposit(int $userId, string $amount): void {
+    public function deposit(int $userId, string $amount): void
+    {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             return;
         }
@@ -40,18 +45,20 @@ class TransactionController {
 
         // Validate inputs
         [$errors, $amount] = $this->transactionRequest->validate($data, 'deposit');
-        if (!empty($errors)) {
+        if ( ! empty($errors)) {
             $this->setErrors($errors);
             return;
         }
 
         $this->transactionService->deposit($userId, $amount);
         FlashMessage::setMessage('success', 'Deposit successful');
+
         header('Location: dashboard.php');
         exit();
     }
 
-    public function withdraw(int $userId, string $amount): void {
+    public function withdraw(int $userId, string $amount): void
+    {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             return;
         }
@@ -63,7 +70,7 @@ class TransactionController {
 
         // Validate inputs
         [$errors, $amount] = $this->transactionRequest->validate($data, 'withdraw');
-        if (!empty($errors)) {
+        if ( ! empty($errors)) {
             $this->setErrors($errors);
             return;
         }
@@ -71,6 +78,7 @@ class TransactionController {
         try {
             $this->transactionService->withdraw($userId, $amount);
             FlashMessage::setMessage('success', 'Withdraw successful');
+
             header('Location: dashboard.php');
             exit();
         } catch (Exception $e) {
@@ -78,7 +86,8 @@ class TransactionController {
         }
     }
 
-    public function transfer(int $senderId, string $receiverEmail, string $amount): void {
+    public function transfer(int $senderId, string $receiverEmail, string $amount): void
+    {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             return;
         }
@@ -90,20 +99,21 @@ class TransactionController {
 
         // Validate inputs
         [$errors, $amount, $receiverEmail] = $this->transactionRequest->validate($data, 'transfer');
-        if (!empty($errors)) {
+        if ( ! empty($errors)) {
             $this->setErrors($errors);
             return;
         }
 
         try {
             $receiver = $this->transactionService->getUserByEmail($receiverEmail);
-            if (!$receiver) {
+            if ( ! $receiver) {
                 $this->setErrors(['email' => 'Receiver does not exist']);
                 return;
             }
 
             $this->transactionService->transfer($senderId, $receiverEmail, $amount);
             FlashMessage::setMessage('success', 'Transfer successful');
+
             header('Location: dashboard.php');
             exit();
         } catch (Exception $e) {

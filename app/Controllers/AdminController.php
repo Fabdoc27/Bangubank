@@ -4,14 +4,17 @@ namespace App\Controllers;
 
 use App\Storage\StorageFactory;
 
-class AdminController {
+class AdminController
+{
     private $storage;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->storage = StorageFactory::create();
     }
 
-    public function usersList(): array {
+    public function usersList(): array
+    {
         $data = $this->storage->getUsers();
 
         // get all users with role "customer"
@@ -23,23 +26,27 @@ class AdminController {
         return $sortedList;
     }
 
-    public function searchUserByEmail(string $email): array {
+    public function searchUserByEmail(string $email): array
+    {
         $data = $this->storage->getUsers();
         $users = array_filter($data, fn($user) => $user['email'] === $email);
 
         return $users;
     }
 
-    public function userInfo(int $userId): array {
+    public function userInfo(int $userId): array
+    {
         return $this->storage->getUserById($userId);
     }
 
-    public function transactionsList(): array {
+    public function transactionsList(): array
+    {
         // Retrieve and reverse transactions for latest records first
         return array_reverse($this->storage->getTransactions());
     }
 
-    public function transactionsById(int $userId): array {
+    public function transactionsById(int $userId): array
+    {
         // for latest records to show first
         return array_reverse($this->storage->getTransactionsById($userId));
     }

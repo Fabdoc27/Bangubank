@@ -8,8 +8,8 @@
 
     require_once __DIR__ . '/../vendor/autoload.php';
 
+    use App\Controllers\TransactionController;
     use App\Helpers\FlashMessage;
-use App\Controllers\TransactionController;
 
     $transactions = new TransactionController();
 

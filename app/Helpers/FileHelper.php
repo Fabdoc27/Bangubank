@@ -2,8 +2,10 @@
 
 namespace App\Helpers;
 
-class FileHelper {
-    public static function readFile(string $filePath): array {
+class FileHelper
+{
+    public static function readFile(string $filePath): array
+    {
         // Check if the file exists
         if (file_exists($filePath)) {
             $data = file_get_contents($filePath);
@@ -13,9 +15,10 @@ class FileHelper {
         return [];
     }
 
-    public static function writeFile(string $filePath, array $data): void {
+    public static function writeFile(string $filePath, array $data): void
+    {
         // Ensure the directory exists
-        if (!is_dir(dirname($filePath))) {
+        if ( ! is_dir(dirname($filePath))) {
             mkdir(dirname($filePath), 0755, true);
         }
 
@@ -24,7 +27,8 @@ class FileHelper {
         file_put_contents($filePath, $jsonData);
     }
 
-    public static function generateId(array $data): int {
+    public static function generateId(array $data): int
+    {
         $length = count($data);
 
         if ($length > 0) {

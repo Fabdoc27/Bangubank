@@ -2,12 +2,15 @@
 
 namespace App\Traits;
 
-trait FormTraits {
+trait FormTraits
+{
     private array $errors = [];
     private array $oldInput = [];
 
-    public function getPostData(array $fields): array {
+    public function getPostData(array $fields): array
+    {
         $data = [];
+
         foreach ($fields as $field) {
             $data[$field] = $_POST[$field] ?? '';
         }
@@ -15,19 +18,23 @@ trait FormTraits {
         return $data;
     }
 
-    public function setErrors(array $errors): void {
+    public function setErrors(array $errors): void
+    {
         $this->errors = $errors;
     }
 
-    public function getErrors(): array {
+    public function getErrors(): array
+    {
         return $this->errors;
     }
 
-    public function setOldInput(array $oldInput): void {
+    public function setOldInput(array $oldInput): void
+    {
         $this->oldInput = $oldInput;
     }
 
-    public function getOldInput(): array {
+    public function getOldInput(): array
+    {
         return $this->oldInput;
     }
 }

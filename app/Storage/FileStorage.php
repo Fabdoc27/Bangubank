@@ -2,17 +2,20 @@
 
 namespace App\Storage;
 
-use App\Helpers\FileHelper;
 use App\Constants\FilePaths;
-use App\Storage\UserInterface;
+use App\Helpers\FileHelper;
 use App\Storage\TransactionInterface;
+use App\Storage\UserInterface;
 
-class FileStorage implements UserInterface, TransactionInterface {
-    public function getUsers(): array {
+class FileStorage implements UserInterface, TransactionInterface
+{
+    public function getUsers(): array
+    {
         return FileHelper::readFile(FilePaths::USERS);
     }
 
-    public function isDuplicateEmail(string $email): bool {
+    public function isDuplicateEmail(string $email): bool
+    {
         $users = $this->getUsers();
 
         // Checks if the given email already exists
@@ -25,7 +28,8 @@ class FileStorage implements UserInterface, TransactionInterface {
         return false;
     }
 
-    public function saveUser(array $newUser): void {
+    public function saveUser(array $newUser): void
+    {
         $users = $this->getUsers();
 
         foreach ($newUser as $user) {
@@ -35,11 +39,13 @@ class FileStorage implements UserInterface, TransactionInterface {
         FileHelper::writeFile(FilePaths::USERS, $users);
     }
 
-    public function getTransactions(): array {
+    public function getTransactions(): array
+    {
         return FileHelper::readFile(FilePaths::TRANSACTIONS);
     }
 
-    public function updateUserBalance(int $userId, int | float $balance): void {
+    public function updateUserBalance(int $userId, int | float $balance): void
+    {
         $users = $this->getUsers();
 
         // Iterate over users to update the balance for the matching user
@@ -53,7 +59,8 @@ class FileStorage implements UserInterface, TransactionInterface {
         FileHelper::writeFile(FilePaths::USERS, $users);
     }
 
-    public function saveTransaction(array $newTransaction): void {
+    public function saveTransaction(array $newTransaction): void
+    {
         $transactions = $this->getTransactions();
 
         foreach ($newTransaction as $transaction) {
@@ -63,7 +70,8 @@ class FileStorage implements UserInterface, TransactionInterface {
         FileHelper::writeFile(FilePaths::TRANSACTIONS, $transactions);
     }
 
-    public function getUserById(int $id): array | bool {
+    public function getUserById(int $id): array | bool
+    {
         $users = $this->getUsers();
 
         // Iterate over users to find the one with the matching ID
@@ -76,7 +84,8 @@ class FileStorage implements UserInterface, TransactionInterface {
         return false;
     }
 
-    public function getUserByEmail(string $email): array | bool {
+    public function getUserByEmail(string $email): array | bool
+    {
         $users = $this->getUsers();
 
         // Iterate over users to find the one with the matching email
@@ -89,7 +98,8 @@ class FileStorage implements UserInterface, TransactionInterface {
         return false;
     }
 
-    public function getTransactionsById(int $userId): array {
+    public function getTransactionsById(int $userId): array
+    {
         $transactions = $this->getTransactions();
 
         // Filter transactions to get only those for the specified customer

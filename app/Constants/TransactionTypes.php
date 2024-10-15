@@ -2,7 +2,8 @@
 
 namespace App\Constants;
 
-class TransactionTypes {
+final class TransactionTypes
+{
     const DEPOSIT = 'deposit';
     const WITHDRAW = 'withdraw';
     const TRANSFER = 'transfer';

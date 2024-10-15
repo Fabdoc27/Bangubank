@@ -2,23 +2,27 @@
 
 namespace App\Services;
 
-use Exception;
 use App\Helpers\FileHelper;
 use App\Storage\FileStorage;
 use App\Storage\StorageFactory;
+use Exception;
 
-class AuthService {
+class AuthService
+{
     private $storage;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->storage = StorageFactory::create();
     }
 
-    public function isExistingUser(string $email): bool {
+    public function isExistingUser(string $email): bool
+    {
         return $this->storage->isDuplicateEmail($email);
     }
 
-    public function registerUser(string $name, string $email, string $password, string $role = "customer", int $id = null): void {
+    public function registerUser(string $name, string $email, string $password, string $role = "customer", int $id = null): void
+    {
         $users = $this->storage->getUsers();
 
         // Generate a new ID
@@ -30,19 +34,20 @@ class AuthService {
 
         // Create the new user array
         $newUser = [
-            'id'       => $id,
-            'role'     => $role,
-            'name'     => $name,
-            'email'    => $email,
+            'id' => $id,
+            'role' => $role,
+            'name' => $name,
+            'email' => $email,
             'password' => $hashedPassword,
-            'balance'  => 0,
+            'balance' => 0,
         ];
 
         // Add the new user
         $this->storage->saveUser([$newUser]);
     }
 
-    public function authenticateUser(string $email, string $password): array {
+    public function authenticateUser(string $email, string $password): array
+    {
         $users = $this->storage->getUsers();
 
         foreach ($users as $user) {

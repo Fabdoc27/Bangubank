@@ -14,8 +14,8 @@
 
     require_once __DIR__ . '/vendor/autoload.php';
 
+    use App\Controllers\AuthController;
     use App\Helpers\FlashMessage;
-use App\Controllers\AuthController;
 
     $authUser = new AuthController();
 

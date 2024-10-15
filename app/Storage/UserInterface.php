@@ -2,7 +2,8 @@
 
 namespace App\Storage;
 
-interface UserInterface {
+interface UserInterface
+{
     public function getUsers(): array;
 
     public function isDuplicateEmail(string $email): bool;

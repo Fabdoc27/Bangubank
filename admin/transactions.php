@@ -196,27 +196,29 @@
                                             </tr>
                                         </thead>
                                         <tbody class="divide-y divide-gray-200 bg-white">
-                                            <?php foreach ($transactions as $transaction): ?>
-                                            <tr>
-                                                <td
-                                                    class="whitespace-nowrap text-center py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
-                                                    <?=ucwords($data->getUserName($transaction['user_id']))?>
-                                                </td>
-                                                <td
-                                                    class="whitespace-nowrap text-center py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
-                                                    <?=ucfirst($transaction['type'])?>
-                                                </td>
-                                                <td
-                                                    class="whitespace-nowrap text-center px-2 py-4 text-sm font-medium text-gray-600">
-                                                    <?=($transaction['type'] === 'deposit' || $transaction['type'] === 'receive') ? '+' : '-';?>
-                                                    $<?=number_format($transaction['amount'], 2);?>
-                                                </td>
-                                                <td
-                                                    class="whitespace-nowrap text-center px-2 py-4 text-sm text-gray-600">
-                                                    <?=date('d M Y, h:i A', strtotime($transaction['created_at']))?>
-                                                </td>
-                                            </tr>
-                                            <?php endforeach;?>
+                                            <?php foreach ($transactions as $transaction):
+                                                    $userInfo = $data->userInfo($transaction['user_id']);
+                                                ?>
+	                                            <tr>
+	                                                <td
+	                                                    class="whitespace-nowrap text-center py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
+	                                                    <?=ucwords($userInfo['name'])?>
+	                                                </td>
+	                                                <td
+	                                                    class="whitespace-nowrap text-center py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
+	                                                    <?=ucfirst($transaction['type'])?>
+	                                                </td>
+	                                                <td
+	                                                    class="whitespace-nowrap text-center px-2 py-4 text-sm font-medium text-gray-600">
+	                                                    <?=($transaction['type'] === 'deposit' || $transaction['type'] === 'receive') ? '+' : '-';?>
+	                                                    $<?=number_format($transaction['amount'], 2);?>
+	                                                </td>
+	                                                <td
+	                                                    class="whitespace-nowrap text-center px-2 py-4 text-sm text-gray-600">
+	                                                    <?=date('d M Y, h:i A', strtotime($transaction['created_at']))?>
+	                                                </td>
+	                                            </tr>
+	                                            <?php endforeach;?>
                                         </tbody>
                                     </table>
                                     <?php endif;?>

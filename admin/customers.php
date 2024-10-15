@@ -9,8 +9,8 @@
 
     require_once __DIR__ . '/../vendor/autoload.php';
 
+    use App\Controllers\AdminController;
     use App\Helpers\FlashMessage;
-use App\Controllers\AdminController;
 
     $data = new AdminController;
 
@@ -224,7 +224,7 @@ use App\Controllers\AdminController;
                         if ($search && empty($searchResults)): ?>
                         <p class="mt-8 text-center text-gray-500">No user found with the provided email</p>
 
-                        <?php elseif (!empty($usersData)): ?>
+                        <?php elseif ( ! empty($usersData)): ?>
                         <div class="flow-root mt-8">
                             <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <?php foreach ($usersData as $customer): ?>

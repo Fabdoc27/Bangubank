@@ -2,24 +2,27 @@
 
 namespace App\Controllers;
 
-use Exception;
-use App\Traits\FormTraits;
 use App\Helpers\FlashMessage;
 use App\Requests\AuthRequest;
 use App\Services\AuthService;
+use App\Traits\FormTraits;
+use Exception;
 
-class AuthController {
+class AuthController
+{
     use FormTraits;
 
     private AuthService $authService;
     private AuthRequest $authRequest;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->authService = new AuthService();
         $this->authRequest = new AuthRequest();
     }
 
-    public function register(): void {
+    public function register(): void
+    {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             return;
         }
@@ -31,7 +34,7 @@ class AuthController {
 
         // Validate inputs
         [$errors, $name, $email, $password] = $this->authRequest->validate($data, 'register');
-        if (!empty($errors)) {
+        if ( ! empty($errors)) {
             $this->setErrors($errors);
             return;
         }
@@ -44,11 +47,13 @@ class AuthController {
 
         $this->authService->registerUser($name, $email, $password);
         FlashMessage::setMessage('success', 'User registered successfully');
+
         header('Location: /login.php');
         exit();
     }
 
-    public function login(): void {
+    public function login(): void
+    {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             return;
         }
@@ -60,7 +65,7 @@ class AuthController {
 
         // Validate inputs
         [$errors, $email, $password] = $this->authRequest->validate($data, 'login');
-        if (!empty($errors)) {
+        if ( ! empty($errors)) {
             $this->setErrors($errors);
             return;
         }
@@ -73,6 +78,7 @@ class AuthController {
             // Redirect based on user role
             $redirectUrl = ($user['role'] === 'admin') ? 'admin/customers.php' : 'customer/dashboard.php';
             FlashMessage::setMessage('success', 'Login successful');
+
             header("Location: $redirectUrl");
             exit();
         } catch (Exception $e) {
@@ -80,7 +86,8 @@ class AuthController {
         }
     }
 
-    public function seedAdmin(): void {
+    public function seedAdmin(): void
+    {
         $adminEmail = 'admin@gmail.com';
 
         if ($this->authService->isExistingUser($adminEmail)) {
@@ -94,7 +101,8 @@ class AuthController {
         exit();
     }
 
-    public function logout(): void {
+    public function logout(): void
+    {
         session_start();
         session_unset();
         session_destroy();
